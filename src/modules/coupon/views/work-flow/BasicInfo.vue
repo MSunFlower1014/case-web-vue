@@ -134,7 +134,6 @@
 <script>
 import Bus from '@/assets/bus.js'
 import couponService from '../../service/coupon-service.js'
-import categoryService from '../../service/coupon-category-service.js'
 const NUM_PATTERN = /^\+?[1-9][0-9]*$/
 const DOUBLE_PATTERN = /^([1-9]\d*|0)(\.\d{1,2})?$/
 export default {

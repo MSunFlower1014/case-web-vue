@@ -1,0 +1,340 @@
+@import './variables.scss';
+@import './mixin.scss';
+@import './transition.scss';
+@import './element-ui.scss';
+// @import './sidebar.scss';
+/* Change autocomplete styles in WebKit */
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid $light-gray;
+  -webkit-text-fill-color: $light-gray;
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+body {
+  height: 100%;
+  min-width: 1230px;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: '微软雅黑', 'arial,sans-serif';
+  background-color: #f8f8f8;
+}
+
+label {
+  font-weight: 700;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+}
+
+#app {
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  outline: none;
+  text-decoration: none;
+}
+
+div:focus {
+  outline: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: ' ';
+    clear: both;
+    height: 0;
+  }
+}
+
+// 滚动条样式
+// 滚动条整体样式 （高宽分别对应横竖滚动条的尺寸）
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+// 滚动条里面小方块
+::-webkit-scrollbar-thumb {
+  background-color: rgba(50, 50, 50, 0.3);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(50, 50, 50, 0.6);
+}
+
+// 滚动条里面轨道
+::-webkit-scrollbar-track {
+  background-color: rgba(50, 50, 50, 0.1);
+}
+
+::-webkit-scrollbar-track:hover {
+  background-color: rgba(50, 50, 50, 0.2);
+}
+
+//main-container全局样式
+.app-main {
+  min-height: 100%;
+}
+
+.app-container {
+  margin: 15px;
+  .box-card {
+    margin-bottom: 15px;
+  }
+  .pagination-container {
+    float: right;
+    margin: 20px 15px;
+  }
+}
+
+/* 图片自适应 */
+
+.img_responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.img_responsive_hg {
+  display: block;
+  max-height: 100%;
+  width: auto;
+}
+
+.dis_block {
+  display: block;
+}
+
+.pos_abs {
+  position: absolute;
+}
+
+.query_label_mgr {
+  padding-left: 5px;
+  font-size: 14px;
+}
+
+.query_input_style {
+  line-height: 40px;
+}
+
+.funcBtn {
+  color: #666;
+  margin-right: 20px;
+}
+
+/*最下面的按钮剧中*/
+
+.submit-button-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.submit_btn {
+  width: 140px;
+  font-size: 1rem;
+}
+
+/*查询card里元素样式*/
+
+// .query-item-label {
+//   margin-left: 10px;
+//   font-size: 16px;
+// }
+.query-search-button {
+  // margin-top: 45px;
+  height: 33px;
+  width: 95px;
+  font-size: 0.9rem;
+}
+
+/*分页样式*/
+
+.pagination-container {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/*字体颜色*/
+
+.ft-red {
+  color: #fd4a0a;
+}
+
+.ft-green {
+  color: #31c982;
+}
+
+.ft_1 {
+  font-size: 1.65rem;
+}
+
+.ft_2 {
+  font-size: 1.25rem;
+}
+
+.fb {
+  font-weight: 600;
+}
+
+.ft_18 {
+  font-size: 18px;
+}
+
+.ft_14 {
+  font-size: 14px;
+}
+
+.line {
+  width: 94%;
+  margin: 20px auto;
+  border-bottom: #e8e8e8 1px solid;
+}
+
+// 图表
+.chartWrap {
+  height: 400px;
+  width: 95%;
+  margin: 15px auto;
+}
+
+// 间距
+.dib {
+  display: inline-block;
+}
+
+.fl {
+  float: left;
+}
+
+.mgrl_1 {
+  margin-left: 1%;
+}
+
+.mgrl_20 {
+  margin-left: 20px;
+}
+
+.mgrb_10 {
+  margin-bottom: 10px;
+}
+
+.mgrb_20 {
+  margin-bottom: 20px;
+}
+
+.wid_45 {
+  width: 45%;
+}
+
+.pdb_20 {
+  padding-bottom: 20px;
+}
+
+// 自定义高度固定dialog
+.scroll-dialog {
+  .el-dialog__title {
+    font-size: 1.2rem;
+    font-weight: normal;
+  }
+  .el-dialog__body {
+    min-height: 100px;
+    max-height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 100%;
+    padding-left: 30px;
+  }
+}
+
+// 表单展示
+.formLine {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  .title {
+    line-height: 30px;
+    font-size: 14px;
+    color: #666;
+    vertical-align: top;
+    text-align: right;
+    font-weight: bold;
+  }
+  .desc {
+    line-height: 30px;
+    vertical-align: top;
+    text-align: left;
+  }
+}
+
+// 图片展示
+.picBox {
+  border: #d6d6d6 1px solid;
+  width: 500px;
+  height: 200px;
+  text-align: center;
+  border-radius: 2px;
+  overflow: hidden;
+  line-height: 100px;
+  display: flex;
+  img {
+    max-width: 500px;
+    max-height: 200px;
+    // vertical-align: middle;
+    align-self: center;
+    margin: 0 auto;
+  }
+}
+
+// 共用优惠券名称链接滑动效果
+.couponName .link:hover {
+  color: #2D8CF0;
+  text-decoration: none;
+  border-bottom: #2D8CF0 1px solid;
+  padding-bottom: 1px;
+}

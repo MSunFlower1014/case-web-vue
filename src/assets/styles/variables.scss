@@ -1,0 +1,64 @@
+// Prefix
+$css-prefix             : ef-;
+$css-prefix-iconfont    : ef-icon;
+
+// Color
+$primary-color          : #2d8cf0;
+$blue                   : #324157;
+$light-blue             : #3A71A8;
+$red                    : #C03639;
+$pink                   : #E65D6E;
+$green                  : #30B08F;
+$tiffany                : #4AB7BD;
+$orange                 : #FEC171;
+$pan-green              : #30B08F;
+
+// Base
+$body-background        : #fff;
+$font-family            : "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+$code-family            : Consolas,Menlo,Courier,monospace;
+$title-color            : #1c2438;
+$text-color             : #495060;
+$font-size-base         : 14px;
+$font-size-small        : 12px;
+$line-height-base       : 1.5;
+$line-height-computed   : floor(($font-size-base * $line-height-base));
+$border-radius-base     : 6px;
+$border-radius-small    : 4px;
+$cursor-disabled        : not-allowed;
+
+// Border color
+$border-color-base      : #dddee1;  // outside
+$border-color-split     : #e9eaec;  // inside
+
+// Background color
+$background-color-login : #f0f2f5;  // base
+
+// Input color
+$input-color-text         : #495060;
+
+// Shadow
+$shadow-color           : rgba(0, 0, 0, .2);
+
+// $shadow-base            : $shadow-down;
+$shadow-card            : 0 1px 1px 0 rgba(0,0,0,.1);
+$shadow-up              : 0 -1px 6px $shadow-color;
+$shadow-down            : 0 1px 6px $shadow-color;
+$shadow-left            : -1px 0 6px $shadow-color;
+$shadow-right           : 1px 0 6px $shadow-color;
+
+// Animation
+$animation-time         : .3s;
+$transition-time        : .2s;
+$ease-in-out            : ease-in-out;
+
+// sidebar
+$menu-background        : #304156;
+$sub-menu-background    : #1f2d3d;
+$menu-hover             : #001528; // hover = primary-color
+$menu-text-color        : #bfcbd9;
+$bg: #2d3a4b;
+$fill-bg-color: #283443;
+$dark-gray: #889aa4;
+$light-gray: #eee;
+$form-text-color: #454545;

@@ -2,120 +2,77 @@
   <div>
     <el-form ref="basicInfoForm"
       :label-position="'right'"
-      :rules="editStatus === 0 || editStatus === '0' ? onlyCouponNumRules : rules"
       :model="basicInfoForm"
       v-loading="loading"
       element-loading-text="拼命加载中">
-      <el-form-item label="名称"
-        prop="couponName"
+      <el-form-item label="病例名称"
+        prop="name"
         label-width="10%">
         <el-input v-model="basicInfoForm.name"
-          :disabled="editStatus === 0 || editStatus === '0'"
-          placeholder="请输入优惠券名称"></el-input>
+              placeholder="请输入病例名称"></el-input>
       </el-form-item>
     
-      <!-- 4满减券 5满折券 9膨胀券 面额/折扣+使用门槛/膨胀系数+单位+数量 -->
       <el-row >
-        <el-col :span="6"
-          v-if="categoryCode==4||categoryCode===9">
-          <el-form-item label="面额"
+        <el-col :span="6">
+          <el-form-item label="病人名字"
             prop="denomination"
             label-width="40%">
             <el-input v-model="basicInfoForm.patientName"
-              
-              placeholder="请输入优惠券面额"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6"
-          v-if="categoryCode===5">
-          <el-form-item label="折扣"
-            prop="denomination"
-            label-width="40%">
-            <el-input v-model="basicInfoForm.patientAge"
-              :disabled="editStatus === 0 || editStatus === '0'"
-              placeholder="请输入小于100的折扣"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6"
-          v-if="categoryCode==4||categoryCode===5">
-          <el-form-item label="使用门槛"
-            prop="useLimit"
-            label-width="40%">
-            <el-input v-model="basicInfoForm.patientSex"
-              :disabled="editStatus === 0 || editStatus === '0'"
-              placeholder="请输入金额"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6"
-          v-if="categoryCode===9">
-          <el-form-item label="膨胀系数"
-            prop="swellFactor"
-            label-width="40%">
-            <el-input v-model="basicInfoForm.patientMobile"
-              :disabled="editStatus === 0 || editStatus === '0'"
-              placeholder="请输入系数"></el-input>
+                    placeholder="请输入病人名字"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="数量"
-            prop="hospital"
+          <el-form-item label="病人年龄"
+            prop="denomination"
             label-width="40%">
-            <el-input v-model="basicInfoForm.hospital"
-              :disabled="quantityStatus === 2"
-              placeholder="请输入数量"></el-input>
+            <el-input v-model="basicInfoForm.patientAge"
+              placeholder="请输入病人年龄"></el-input>
+          </el-form-item>
+        </el-col>
+
+
+        <el-col :span="6">
+          <el-form-item label="病人性别"
+            prop="denomination"
+            label-width="40%">
+           <el-select v-model="basicInfoForm.patientSex" placeholder="选择病人性别">
+            <el-option v-for="(item,index) in sexUtils" :key="index" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="6">
+          <el-form-item label="联系方式"
+            prop="patientMobile"
+            label-width="40%">
+            <el-input v-model="basicInfoForm.patientMobile"
+              placeholder="请输入病人联系方式"></el-input>
+          </el-form-item>
+        </el-col>
+       <el-col :span="6">
+          <el-form-item label="病例类型"
+            prop="type"
+            label-width="40%">
+           <el-select v-model="basicInfoForm.type" placeholder="选择病例类型">
+            <el-option v-for="(item,index) in typeUtils" :key="index" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
           </el-form-item>
         </el-col>
       </el-row>
-
-      <!-- 跳转链接 -->
-      <el-form-item :span="6" label="跳转链接"
-                    prop="couponLink"
-                    label-width="10%">
-        <el-input v-model="basicInfoForm.couponLink"
-                  :disabled="quantityStatus === 2"
-                  placeholder="请输入跳转链接"></el-input>
-      </el-form-item>
-
-      <!-- 使用说明 -->
-      <el-form-item label="使用说明"
+      <el-form-item label="备注信息"
                     prop="message"
                     label-width="10%">
         <el-input v-model="basicInfoForm.message"
-                  :disabled="quantityStatus === 2"
-                  placeholder="请输入使用说明"></el-input>
-      </el-form-item>
-
-      <!-- 短信模板 -->
-      <el-form-item label="短信模板"
-                    prop="couponGetMsg"
-                    label-width="10%">
-        <el-input type="textarea"
-                  title="模板参数说明：$1表示卡券名称，$2表示生效时间，$3表示结束时间。内容为空则不发送"
-                  v-model="basicInfoForm.couponGetMsg"
-                  :disabled="quantityStatus === 2"
-                  placeholder="短信模板，模板参数说明：$1表示卡券名称，$2表示生效时间，$3表示结束时间。内容为空则不发送"></el-input>
-      </el-form-item>
-     
-      <el-form-item label="说明"
-        prop="couponDesc"
-        label-width="10%">
-        <el-input type="textarea"
-          :rows="5"
-          :disabled="editStatus === 0 || editStatus === '0'"
-          v-model="basicInfoForm.couponDesc"></el-input>
-      </el-form-item>
-      <el-form-item label="热点宣传"
-        prop="hotDesc"
-        label-width="10%">
-        <el-input v-model="basicInfoForm.hotDesc"
-          :disabled="editStatus === 0 || editStatus === '0'"></el-input>
+                placeholder="请输入备注信息"></el-input>
       </el-form-item>
       <el-row>
         <el-col :span="12">
           <el-form-item label="发放方式"
-            prop="sendType"
+            prop="status"
             label-width="20%">
-            <el-radio v-model="basicInfoForm.sendType"
+            <el-radio v-model="basicInfoForm.status"
                       label="1">直接发放</el-radio>
             <!--<el-radio v-model="basicInfoForm.sendType"
                       label="2">铺货发放</el-radio>-->
@@ -168,84 +125,9 @@ export default {
     }
   },
   data() {
-    const checkDenomination = (rule, value, callback) => {
-      if (this.categoryCode === 5 || this.categoryCode === 7) {
-        // >0 && <100 整数
-        if (!NUM_PATTERN.test(value)) {
-          callback(new Error('请输入正整数'))
-        } else {
-          if (value <= 0 || value >= 100) {
-            callback(new Error('折扣应大于0且小于100'))
-          } else {
-            callback()
-          }
-        }
-      } else {
-        if (!NUM_PATTERN.test(value)) {
-          callback(new Error('请输入正整数'))
-        } else {
-          if (value.toString().length > 4) {
-            callback(new Error('面额不超过四位数'))
-          }
-          callback()
-        }
-      }
-    }
-    const check5Num = (rule, value, callback) => {
-      if (!NUM_PATTERN.test(value)) {
-        callback(new Error('请输入正整数'))
-      } else {
-        if (value.toString().length > 5) {
-          callback(new Error('不得超过五位数'))
-        }
-        callback()
-      }
-    }
-    const checkCouponNum = (rule, value, callback) => {
-      if (!NUM_PATTERN.test(value)) {
-        callback(new Error('请输入正整数'))
-      } else {
-        if (value.toString().length > 9) {
-          callback(new Error('不得超过九位数'))
-        } else if (this.quantityStatus !== null) {
-          if (this.quantityStatus === 0) {
-            callback()
-          } else if (this.quantityStatus === 1) {
-            if (!(value >= this.oldCouponNum)) {
-              callback(new Error('优惠券数量应大于等于原数量！'))
-            } else {
-              callback()
-            }
-          } else {
-            callback()
-          }
-        } else {
-          callback()
-        }
-      }
-    }
-    const checkSwellFactor = (rule, value, callback) => {
-      if (!DOUBLE_PATTERN.test(value)) {
-        callback(new Error('请输入正整数或两位以内的小数'))
-      } else {
-        if (value.toString().length > 5) {
-          callback(new Error('不得超过五位数（小数点占一位）'))
-        }
-        callback()
-      }
-    }
     return {
       loading: false,
       btnLoading: false,
-      action: '',
-      editStatus: 1,
-      /** quantityStatus
-       * 0 不限制输入数量 1：比之前大 2：不可编辑
-       */
-      quantityStatus: null,
-      oldCouponNum: null, // 二次编辑时的原数量
-      couponCategories: [],
-      emitCouponId: '', // 下一步返回上一步 带回来的couponId
       // 基本信息
       basicInfoForm: {
         id: '',
@@ -259,136 +141,61 @@ export default {
         type: '',
         status: ''
       },
-      timeUnits: [
+      sexUtils: [
         {
-          label: '分',
-          value: 6
-        },
-        {
-          label: '时',
-          value: 7
-        }
-      ],
-      flowUnits: [
-        {
-          label: 'M',
-          value: 4
-        },
-        {
-          label: 'G',
-          value: 5
-        }
-      ],
-      multiUnits: [
-        {
-          label: '元',
+          label: '男',
           value: 1
         },
         {
-          label: '角',
+          label: '女',
           value: 2
+        }
+      ],
+       typeUtils: [
+        {
+          label: '外科',
+          value: 1
         },
         {
-          label: '分',
-          value: 3
+          label: '内科',
+          value: 2
         }
       ],
-      yuanUnit: [
-        {
-          label: '元',
-          value: 1
-        }
-      ],
-      countUnit: [
-        {
-          label: '折',
-          value: 8
-        }
-      ],
-      iconModifyFlag: false, // 编辑状态时，附件是否被修改过
-      isShowPic: false, // 是否有图片
-      iconFileUrl: '', // 附件地址
-      iconFileName: '', // 附件名称
-      formatArr: ['.jpg', '.png', '.gif'], // 图片格式
       // 表单校验
       rules: {
-        couponName: [
-          { required: true, message: '请输入优惠券名称', trigger: 'blur' },
+        name: [
+          { required: true, message: '请输入病例名称', trigger: 'blur' },
           { max: 100, message: '长度不超过 100 个字符', trigger: 'blur' }
         ],
-        denomination: [
-          {
-            required: true,
-            message:
-              this.categoryCode !== '5' && this.categoryCode !== '7'
-                ? '请输入优惠券面额'
-                : '请输入折扣',
-            trigger: 'blur'
-          },
-          {
-            validator: checkDenomination,
-            trigger: 'blur'
-          }
+        patientName: [
+          { required: true, message: '请输入病人名字', trigger: 'change' }
         ],
-        unitType: [
-          { required: true, message: '请选择单位', trigger: 'change' }
+        patientAge: [
+          { required: true, message: '请输入病人年龄', trigger: 'change' }
         ],
-        serviceCode: [
-          { required: true, message: '请输入策划编码', trigger: 'change' },
-          { max: 32, message: '长度不超过 32 个字符', trigger: 'blur' }
+        patientSex: [
+          { required: true, message: '请选择病人性别', trigger: 'blur' }
         ],
-        swellFactor: [
-          { required: true, message: '请输入系数', trigger: 'blur' },
-          { validator: checkSwellFactor, trigger: 'blur' }
+        patientMobile: [
+          { required: true, message: '请输入病人联系方式', trigger: 'change' }
         ],
-        useLimit: [
-          { required: true, message: '请输入金额', trigger: 'change' },
-          { validator: check5Num, trigger: 'blur' }
+        message: [
+          { required: true, message: '请输入病例信息', trigger: 'blur' }
         ],
-        couponNum: [
-          { required: true, message: '请输入数量', trigger: 'blur' },
-          { validator: checkCouponNum, trigger: 'blur' }
-        ],
-        couponDesc: [
-          { required: false, message: '请输入优惠券描述', trigger: 'blur' },
-          { max: 1000, message: '长度不超过 1000 个字符', trigger: 'blur' }
-        ],
-        hotDesc: [
-          { required: false, message: '请输入热点宣传', trigger: 'blur' },
-          { max: 22, message: '长度不超过 22 个字符', trigger: 'blur' }
-        ],
-        couponGetMsg: [
-          { max: 140, message: '长度不超过 140 个字符', trigger: 'blur' }
-        ]
-      },
-      onlyCouponNumRules: {
-        couponNum: [
-          { required: true, message: '请输入数量', trigger: 'blur' },
-          { validator: checkCouponNum, trigger: 'blur' }
+        type: [
+          { required: false, message: '请选择病例类型', trigger: 'blur' }
         ]
       }
     }
   },
-  computed: {
-    categoryCode() {
-      let code = ''
-      if (
-        localStorage.getItem('codesFlag') &&
-        JSON.parse(localStorage.getItem('codesFlag')).categoryCode !== null
-      ) {
-        code =
-          this.codesFlag.categoryCode ||
-          JSON.parse(localStorage.getItem('codesFlag')).categoryCode
-      } else {
-        code = this.codesFlag.categoryCode
-      }
-      return code
-    }
-  },
+  computed: {},
   methods: {
     queryBasicInfo() {
       let self = this
       let queryID = this.couponID || this.emitCouponId
+      if(queryID==''){
+        return
+      }
       let params = {
         id: queryID,
         status: this.status === undefined ? -1 : parseInt(this.status)
@@ -398,7 +205,6 @@ export default {
         .getBasicByIdStatus(params)
         .then(rsp => {
           self.loading = false
-          self.editStatus = rsp.data.editStatus
           self.quantityStatus = rsp.data.quantityStatus
           if (self.quantityStatus === 1) {
             self.oldCouponNum = rsp.data.couponNum
@@ -417,13 +223,10 @@ export default {
     handleAdd() {
       let self = this
       let formData = new FormData()
-      formData.append('coupon', JSON.stringify(this.basicInfoForm))
-      if (this.basicInfoForm.couponImg !== '') {
-        formData.append('iconFile ', this.basicInfoForm.couponImg)
-      }
+      formData.append('caseEntity', JSON.stringify(this.basicInfoForm))
       this.btnLoading = true
       couponService
-        .addData(formData)
+        .addFormData(formData)
         .then(response => {
           self.btnLoading = false
           self.$message({
@@ -435,21 +238,21 @@ export default {
           Bus.$emit('getCouponId', response.data)
           Bus.$emit('getCouponNum', self.basicInfoForm.couponNum)
           self.$emit('change-flag1')
+          this.$router.push({
+             path: '/case/case_list'
+          })
         })
         .catch(e => {
           self.btnLoading = false
         })
     }
   },
-  mounted() {
-    this.action = this.editType
-  },
+  mounted() {},
   created() {},
   watch: {
     action: {
       handler: function(val, oldVal) {
-        if (this.action === 'modify') this.queryBasicInfo()
-        else this.handleQueryCategory()
+        this.queryBasicInfo()
       }
     }
   }

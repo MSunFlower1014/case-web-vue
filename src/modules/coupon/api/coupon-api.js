@@ -39,7 +39,7 @@ class CouponApi extends BaseCRUDApi {
   // 新增优惠券信息
   addFormData(data) {
     return request({
-      url: `${this.apiBaseUrl}`,
+      url: `${this.apiBaseUrl}/caseEntityAdd`,
       method: 'post',
       data: data,
       headers: {

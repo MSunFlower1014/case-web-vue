@@ -125,11 +125,9 @@ export default {
     showCouponDetail(record) {
       let couponId = record.id || record.couponId
       this.$router.push({
-        path: '/coupon/coupon_details',
+        path: '/case/case_details',
         query: {
           couponID: couponId,
-          issuerCode: record.issuerCode,
-          categoryName: record.categoryName,
           on: 'list'
         }
       })

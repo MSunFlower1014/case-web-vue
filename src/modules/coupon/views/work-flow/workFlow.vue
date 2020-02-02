@@ -75,7 +75,7 @@ export default {
       ) {
         // 返回setup 刷新数据
         this.$router.push({
-          path: '/coupon/coupon_setup/setup_list'
+          path: '/case/case_list'
         })
       }
     }

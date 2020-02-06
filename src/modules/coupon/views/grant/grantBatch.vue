@@ -606,7 +606,7 @@ export default {
         id: this.couponId,
         status: this.status
       }
-      couponService.getBasicByIdStatus(params).then(rsp => {
+      couponService.getBasicById(params).then(rsp => {
         self.basicInfoForm = Object.assign({}, rsp.data)
       })
     },

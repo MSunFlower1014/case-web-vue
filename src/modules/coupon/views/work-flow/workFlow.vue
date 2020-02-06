@@ -27,10 +27,9 @@
 </template>
 <script>
 import BasicInfo from './BasicInfo.vue'
-import categoryService from '../../service/coupon-category-service.js'
 export default {
   components: {
-    BasicInfo,
+    BasicInfo
   },
   data() {
     return {
@@ -44,7 +43,7 @@ export default {
       couponCategories: [],
       active: 0,
       // 分步flag
-      step1Flag: false, // 第1步结果
+      step1Flag: false // 第1步结果
     }
   },
   computed: {
@@ -55,8 +54,7 @@ export default {
       }
     }
   },
-  methods: {
-    
+  methods: { 
     changeFlag1() {
       this.step1Flag = true
       this.next()

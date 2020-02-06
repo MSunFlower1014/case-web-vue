@@ -21,11 +21,11 @@ class CouponService extends BaseCRUDService {
     })
   }
 
-  // 根据优惠券id + ststus查询优惠券详情信息
-  getBasicByIdStatus(data) {
+  // 根据优惠券id 查询优惠券详情信息
+  getBasicById(data) {
     return new Promise((resolve, reject) => {
       couponApi
-        .getBasicByIdStatus(data)
+        .getBasicById(data)
         .then(response => {
           const data = response.data
           resolve(data)
@@ -66,11 +66,11 @@ class CouponService extends BaseCRUDService {
     })
   }
 
-  // 更新优惠券其他规则
-  updateOtherRuleById(data) {
+  // 获取转派列表
+  queryUserList(data) {
     return new Promise((resolve, reject) => {
       couponApi
-        .updateOtherRuleById(data)
+        .queryUserList()
         .then(response => {
           const data = response.data
           resolve(data)
@@ -81,11 +81,11 @@ class CouponService extends BaseCRUDService {
     })
   }
 
-  // 更新优惠券状态
-  updateStatusById(params) {
+  // 新增转派流程
+  addReferralFromData(data) {
     return new Promise((resolve, reject) => {
       couponApi
-        .updateStatusById(params)
+        .addReferralFromData(data)
         .then(response => {
           const data = response.data
           resolve(data)

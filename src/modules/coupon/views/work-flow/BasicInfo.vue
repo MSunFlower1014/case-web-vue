@@ -15,7 +15,7 @@
       <el-row >
         <el-col :span="6">
           <el-form-item label="病人名字"
-            prop="denomination"
+            prop="patientName"
             label-width="40%">
             <el-input v-model="basicInfoForm.patientName"
                     placeholder="请输入病人名字"></el-input>
@@ -23,17 +23,17 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="病人年龄"
-            prop="denomination"
+            prop="patientAge"
             label-width="40%">
             <el-input v-model="basicInfoForm.patientAge"
-              placeholder="请输入病人年龄"></el-input>
+              placeholder="请输入病人年龄">{{basicInfoForm.patientAge}}</el-input>
           </el-form-item>
         </el-col>
 
 
         <el-col :span="6">
           <el-form-item label="病人性别"
-            prop="denomination"
+            prop="patientSex"
             label-width="40%">
            <el-select v-model="basicInfoForm.patientSex" placeholder="选择病人性别">
             <el-option v-for="(item,index) in sexUtils" :key="index" :label="item.label" :value="item.value">
@@ -96,31 +96,7 @@ const DOUBLE_PATTERN = /^([1-9]\d*|0)(\.\d{1,2})?$/
 export default {
   name: 'BasicInfo',
   props: {
-    codesFlag: {
-      type: Object
-    },
-    editType: {
-      type: String
-    },
-    status: {
-      type: [Number, String]
-    },
-    couponNum: {
-      type: [Number, String]
-    },
     couponID: {
-      type: String
-    },
-    active: {
-      type: [Number, String]
-    },
-    couponLink: {
-      type: [Number, String]
-    },
-    couponUseDesc: {
-      type: [Number, String]
-    },
-    couponGetMsg: {
       type: String
     }
   },
@@ -144,21 +120,21 @@ export default {
       sexUtils: [
         {
           label: '男',
-          value: 1
+          value:'1' 
         },
         {
           label: '女',
-          value: 2
+          value: '2'
         }
       ],
        typeUtils: [
         {
           label: '外科',
-          value: 1
+          value: '1'
         },
         {
           label: '内科',
-          value: 2
+          value: '2'
         }
       ],
       // 表单校验
@@ -183,7 +159,7 @@ export default {
           { required: true, message: '请输入病例信息', trigger: 'blur' }
         ],
         type: [
-          { required: false, message: '请选择病例类型', trigger: 'blur' }
+          { required: true, message: '请选择病例类型', trigger: 'blur' }
         ]
       }
     }
@@ -193,28 +169,19 @@ export default {
     queryBasicInfo() {
       let self = this
       let queryID = this.couponID || this.emitCouponId
-      if(queryID==''){
+      if (queryID =='') {
         return
       }
       let params = {
-        id: queryID,
-        status: this.status === undefined ? -1 : parseInt(this.status)
+        id: queryID
       }
       this.loading = true
       couponService
-        .getBasicByIdStatus(params)
+        .getBasicById(params)
         .then(rsp => {
           self.loading = false
-          self.quantityStatus = rsp.data.quantityStatus
-          if (self.quantityStatus === 1) {
-            self.oldCouponNum = rsp.data.couponNum
-          }
-          self.basicInfoForm = Object.assign({}, rsp.data)
-          console.log(self.basicInfoForm)
-          self.isShowPic = rsp.data.couponImg !== ''
-          self.iconFileUrl = self.isShowPic
-            ? self.picUrlPrefix + rsp.data.couponImg
-            : ''
+          self.basicInfoForm = Object.assign({}, rsp)
+          console.log(self.basicInfoForm.name)
         })
         .catch(e => {
           self.loading = false
@@ -247,12 +214,14 @@ export default {
         })
     }
   },
-  mounted() {},
+  mounted() {
+    this.queryBasicInfo()
+  },
   created() {},
   watch: {
     action: {
       handler: function(val, oldVal) {
-        this.queryBasicInfo()
+        console.log(val + oldVal)        
       }
     }
   }

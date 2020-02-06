@@ -9,7 +9,7 @@
             src="@/assets/images/logo.png">
         </div>
         <div class="name">
-          优惠券平台
+          卫生信息平台
         </div>
       </el-col>
       <!-- 导航菜单 -->

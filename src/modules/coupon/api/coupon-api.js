@@ -16,9 +16,9 @@ class CouponApi extends BaseCRUDApi {
   }
 
   // 根据优惠券id + ststus查询优惠券详情信息
-  getBasicByIdStatus(data) {
+  getBasicById(data) {
     return request({
-      url: `${this.apiBaseUrl}/getById?id=${data.id}&status=${data.status}`,
+      url: `${this.apiBaseUrl}/get/${data.id}`,
       method: 'get'
     })
   }
@@ -48,21 +48,23 @@ class CouponApi extends BaseCRUDApi {
     })
   }
 
-  // 更新优惠券其他规则
-  updateOtherRuleById(data) {
+  // 获取转派列表
+  queryUserList(data) {
     return request({
-      url: `${this.apiBaseUrl}/otherRule/${data.couponId}?isOpen=0&isPresent=${data.isPresent}&isReturn=0`,
-      method: 'post',
-      data: data
+      url: `/api/platform/getUserList`,
+      method: 'get'
     })
   }
 
-  // 更新优惠券状态
-  updateStatusById(params) {
+  // 新增转派流程
+  addReferralFromData(data) {
     return request({
-      url: `${this.apiBaseUrl}/status?id=${params.id}&status=${params.status}`,
+      url: `/api/referral/referralEntityAdd`,
       method: 'post',
-      data: params
+      data: data,
+      headers: {
+        'Content-Type': ' multipart/form-data'
+      }
     })
   }
 }

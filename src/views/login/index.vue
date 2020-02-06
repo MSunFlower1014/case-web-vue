@@ -5,13 +5,13 @@
       <el-row>
         <el-col :span="14">
           <div class="login-name">
-            <div class="dis_block mrgt_8 ft_1">优惠券平台，您精细化运营的好帮手</div>
+            <div class="dis_block mrgt_8 ft_1">卫生信息平台</div>
             <div class="dis_block mrgt_2 ft_2"
               style="line-height: 1.8">
-              <br> -多样的卡券模板定义
-              <br> -全面的卡券生命周期管理
-              <br> -灵活的创建、发放和领取规则
-              <br> -平台、店铺两级的卡券运营支撑
+              <br> -基于健康档案的区域卫生信息平台
+              <br> -是指以健康档案信息的采集、存储为基础，能够自动产生、分发、推送工作任务清单，支持区域范围内不同医疗卫生机构
+              <br> -以及相关部门业务应用系统间实现互联互通、数据共享和业务整合的信息平台
+              <br> -平台主要以服务居民为中心，同时满足卫生管理和辅助决策的需求
             </div>
             </div>
         </el-col>
@@ -20,7 +20,7 @@
             <el-row class="login-top">
               <el-col :span="8">
                 <div class="login-img">
-                  <img src="@/assets/images/logoLogin.png">
+        
                   <span>用户登录</span>
                 </div>
               </el-col>
@@ -69,14 +69,6 @@
                     <el-button class="login-button"
                       :loading="loading"
                       @click.native.prevent="handleLogin">{{$t('login.logIn')}}</el-button>
-                    <!-- <el-col :span="14">
-                    <el-checkbox v-model="loginForm.rememberMe">十天免登陆</el-checkbox>
-                  </el-col>
-                  <el-col :span="10">
-                    <el-button class="login-button"
-                      :loading="loading"
-                      @click.native.prevent="handleLogin">{{$t('login.logIn')}}</el-button>
-                  </el-col> -->
                   </el-form-item>
               </el-form>
             </div>

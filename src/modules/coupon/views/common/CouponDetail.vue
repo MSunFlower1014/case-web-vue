@@ -12,7 +12,7 @@
         <li :class="{ on: isActive==='2' }">
           <a @click="handleChangeTab('2')">
             <i class="fa fa-file-powerpoint-o fa-2x"></i>
-            <span>领取规则</span>
+            <span>转诊申请</span>
           </a>
           <em></em>
         </li>
@@ -63,7 +63,7 @@
             </el-col>
             <el-col :span="21"
               class="desc">
-              <span>{{basicInfoForm.patientSex}}</span>
+              <span>{{basicInfoForm.patientSex | sexFilter}}</span>
             </el-col>
           </el-row>
           <el-row class="formLine"
@@ -108,7 +108,7 @@
             </el-col>
             <el-col :span="21"
               class="desc">
-              <span>{{basicInfoForm.type}}</span>
+              <span>{{basicInfoForm.type | typeFilter }}</span>
             </el-col>
           </el-row>
           <el-row class="formLine"
@@ -130,74 +130,109 @@
             </el-col>
             <el-col :span="21"
               class="desc">
-              <span>{{basicInfoForm.status}}</span>
+              <span>{{basicInfoForm.status | statusFilter }}</span>
             </el-col>
           </el-row>
         </el-row>
 
-        <!-- 领取规则 -->
+        <!-- 转诊申请 -->
         <el-row v-if="isActive==='2'">
-
-        </el-row>
+            <el-form ref="basicInfoForm"
+              :label-position="'right'"
+              :model="basicInfoForm"
+              element-loading-text="拼命加载中">
+              <el-row class="formLine" :gutter="20">
+                <el-col :span="3"
+                  class="title">
+                  <span>转诊医院选择</span>
+                </el-col>
+                <el-col :span="9"
+                  class="desc">
+                  <el-select v-model="referral.newOwnId" filterable placeholder="请选择">
+                    <el-option
+                      v-for="item in userList"
+                      :key="item.id"
+                      :label="item.hospital"
+                      :value="item.id"
+                      >
+                    </el-option>
+                  </el-select>
+                </el-col>
+              </el-row>
+              <el-row class="formLine" :gutter="20">
+                <el-col :span="3"
+                  class="title">
+                  <span>转诊备注信息</span>
+                </el-col>
+                <el-col :span="12">
+                  <el-input type="textarea" v-model="referral.message"
+                    maxlength="250" placeholder="请输入转诊备注信息"></el-input>
+                </el-col>
+              </el-row>
+            </el-form>
+            <div class="submit-button-wrap">
+            <el-button type="primary"
+              @click="referralHospital"
+              class="submit_btn"
+              round>转诊</el-button>
+          </div>
+          </el-row>
       </div>
     </div>
   </div>
 </template>
 <script>
 import couponService from '../../service/coupon-service.js'
-import receiveRuleService from '../../service/receive-rule-service.js'
-import useRuleService from '../../service/use-rule-service.js'
-import sendRuleService from '../../service/send-rule-service.js'
-const PIC_URL_PREFIX = 'https://www.nimitz.org.cn/uploadFile/couponMaterialFile'
 export default {
   data() {
     return {
-      picUrlPrefix: PIC_URL_PREFIX,
       isActive: '1', // 当前点击索引
-      receiveDone: false,
-      useDone: false,
-      sendDone: false,
-      tripRulesShow: false, // 规则是否显示
-      sendRuleOn: false, // 规则是否显示
       basicInfoForm: {}, // 基本信息
-      receiveRuleForm: {}, // 领取规则
-      // 使用规则查询接口返回数据
-      useRuleStatus: false,
-      sendType: '',
-      use_way: '',
-      use_time: '',
-      activate_way: '',
-      use_interval: '',
-      goods_scope: '',
-      use_channel: '',
-      amount_scope: '',
-      selectedCategory: [],
-      selectedBrand: [],
-      selectedGoods: [],
-      unitTypes: ['', '元', '角', '分', 'M', 'G', '分钟', '小时', '折'],
-      weekDays: [
-        '星期一',
-        '星期二',
-        '星期三',
-        '星期四',
-        '星期五',
-        '星期六',
-        '星期日'
-      ]
+      userList: [],
+      referral: {
+        newOwnId: '',
+        newOwnName: '',
+        message: '',
+        caseId: ''
+      }
     }
   },
   filters: {
+    sexFilter(value) {
+      let statusDesc = ''
+      switch (value) {
+        case '1':
+          statusDesc = '男'
+          break
+        case '2':
+          statusDesc = '女'
+          break
+      }
+      return statusDesc
+    },
+    typeFilter(value) {
+      let statusDesc = ''
+      switch (value) {
+        case '1':
+          statusDesc = '外科'
+          break
+        case '2':
+          statusDesc = '内科'
+          break
+      }
+      return statusDesc
+    },
     statusFilter(value) {
       let statusDesc = ''
       switch (value) {
-        case -1:
-          statusDesc = '草稿'
+        case '1':
+          statusDesc = '正常'
           break
-        case 0:
-          statusDesc = '停用'
+        case '2':
+          statusDesc = '转派中'
           break
-        case 1:
-          statusDesc = '启用'
+        case '3':
+          statusDesc = '出院，结档'
           break
       }
       return statusDesc
@@ -207,53 +242,48 @@ export default {
     couponID() {
       return this.$route.query.couponID
     }
-    ,
-    useWay() {
-      if (this.use_way === '') {
-        return this.use_way
-      } else {
-        return this.use_way === '1' ? '线上' : '线下'
-      }
-    },
-    activateWay() {
-      if (this.activate_way === '') {
-        return this.activate_way
-      } else {
-        return this.activate_way === '1' ? '自动激活' : '手工激活'
-      }
-    },
-    useChannel() {
-      if (this.use_channel === '-1') {
-        return '不限渠道'
-      } else {
-        return this.use_channel
-      }
-    },
-    useInterval() {
-      if (this.use_interval === '-1') {
-        return '不限'
-      } else if (this.use_interval === '') {
-        return ''
-      } else {
-        let weeks = JSON.parse(this.use_interval).week
-        let time = JSON.parse(this.use_interval).time
-        let result = ''
-        if (weeks) {
-          let arrCode = weeks.split(',')
-          let arrValue = []
-          arrCode.forEach(item => {
-            arrValue.push(this.weekDays[parseInt(item) - 1])
-          })
-          result = '限定星期： ' + arrValue + ' '
-        }
-        if (time) {
-          result += '限定时段： ' + time
-        }
-        return result
-      }
-    }
   },
   methods: {
+    referralHospital() {
+      this.$confirm('此操作将发起转诊, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let self = this
+          this.referral.caseId = this.basicInfoForm.id
+          console.log(this.referral)
+          let formData = new FormData()
+          formData.append('referralEntity', JSON.stringify(this.referral))
+          this.btnLoading = true
+          couponService.addReferralFromData(formData).then(rsp => {
+            self.btnLoading = false
+            var showMessage = '转诊成功！'
+            var showType = 'success'
+            if(rsp.resultCode != 0){
+              showMessage = rsp.resultMessage
+              showType = 'error'
+            }
+            self.$message({
+                showClose: true,
+                message: showMessage,
+                type:showType
+              })
+          }).catch(error => {
+              self.$message({
+                showClose: true,
+                message: error.resultMessage,
+                type: 'error'
+              })
+            })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });          
+        });
+      
+    },
     handleChangeTab(index) {
       this.isActive = index
     },
@@ -261,6 +291,12 @@ export default {
       let self = this
       couponService.queryCouponDetailById(this.couponID).then(rsp => {
         self.basicInfoForm = Object.assign({}, rsp)
+      })
+    },
+    queryUserList() {
+      let self = this
+      couponService.queryUserList(this.couponID).then(rsp => {
+        self.userList = Object.assign({}, rsp)
       })
     }
   },
@@ -271,8 +307,7 @@ export default {
   watch: {
     isActive: {
       handler: function(val, oldVal) {
-        if (val === '2' && !this.receiveDone) this.queryReceiveRule()
-        if (val === '3' && !this.useDone) this.queryUseRule()
+        if (val === '2') this.queryUserList()
       },
       deep: true
     }

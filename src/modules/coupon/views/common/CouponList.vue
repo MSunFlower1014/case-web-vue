@@ -5,7 +5,7 @@
       <el-row class="query_label_mgr"
         :gutter="20">
         <el-col :span="4">
-          <span>优惠券名称</span>
+          <span>病例名称</span>
         </el-col>
     
       </el-row>
@@ -14,7 +14,7 @@
         <el-col :span="4">
           <el-input v-model="queryParam['caseName']"
             clearable
-            placeholder="请输入优惠券名称"></el-input>
+            placeholder="请输入病例名称"></el-input>
         </el-col>
        
         <el-col :span="2">
@@ -65,19 +65,26 @@
             <span>{{scope.row.message || '-'}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="类型"
+         <el-table-column label="状态"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <span>{{scope.row.type || '-'}}</span>
+            <span>{{scope.row.status | statusFilter}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="创建时间"
+         <el-table-column label="创建时间"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <span>{{scope.row.createDate || '-'}}</span>
+            <span>{{scope.row.createDate }}</span>
           </template>
+        </el-table-column>
+         <!-- 操作列 -->
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+             <el-button title="编辑" type="primary" icon="el-icon-edit" @click="showCouponWorkFlow(scope.row)"> 编辑</el-button>
+            </template>
         </el-table-column>
       </el-table>
+      
       <div class="pagination-container">
         <el-pagination background
           layout="total, prev, pager, next, jumper"
@@ -104,7 +111,7 @@ export default {
       currentPage: 1,
       totalPage: 30,
       pageData: {
-        records : []
+        records: []
       },
       statusArr: [],
       shopId: '',
@@ -118,6 +125,23 @@ export default {
       }
     }
   },
+  filters: {
+    statusFilter(value) {
+      let statusDesc = ''
+      switch (value) {
+        case '1':
+          statusDesc = '正常'
+          break
+        case '2':
+          statusDesc = '转派中'
+          break
+        case '3':
+          statusDesc = '出院结档'
+          break
+      }
+      return statusDesc
+    }
+  },
   methods: {  
     handleCurrentChange(val) {
       this.handleQueryData(val)
@@ -129,6 +153,15 @@ export default {
         query: {
           couponID: couponId,
           on: 'list'
+        }
+      })
+    },
+    showCouponWorkFlow(record) {
+      let couponId = record.id || record.couponId
+      this.$router.push({
+        path: '/case/case_add',
+        query: {
+          couponID: couponId
         }
       })
     },

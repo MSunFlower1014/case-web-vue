@@ -41,8 +41,8 @@
           prop="name"
           class-name="name">
           <template slot-scope="scope">
-            <a @click="showCouponDetail(scope.row)"
-              class="link">{{scope.row.name}}</a>
+            <el-link @click="showCouponDetail(scope.row)"
+              class="link" type="primary">{{scope.row.name}}</el-link>
           </template>
         </el-table-column>
             <el-table-column label="病例id"
@@ -80,7 +80,8 @@
          <!-- 操作列 -->
         <el-table-column label="操作">
           <template slot-scope="scope">
-             <el-button title="编辑" type="primary" icon="el-icon-edit" @click="showCouponWorkFlow(scope.row)"> 编辑</el-button>
+             <el-button title="编辑" circle type="primary" icon="el-icon-edit" @click="showCouponWorkFlow(scope.row)"> </el-button>
+              <el-button v-if="scope.row.status=='1'" title="出院" type="success" icon="el-icon-check" circle @click="changeCaseStatus(scope.row)"></el-button>
             </template>
         </el-table-column>
       </el-table>
@@ -142,12 +143,50 @@ export default {
       return statusDesc
     }
   },
-  methods: {  
+  methods: {
+    changeCaseStatus(record) {
+      if(record.status=='2'){
+          this.$message({
+              type: 'error',
+              message: '正在转院的档案无法进行结档操作'
+          }); 
+          return;
+      }
+      this.$confirm('此操作将发起出院结档, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+         
+          productsService
+            .changeCaseStatus(record.id)
+            .then(rspData => {
+              console.log(rspData)
+              if(rspData){
+                 this.$message({
+                  type: 'success',
+                  message: '出院结档成功'
+                }); 
+              }else{
+                this.$message({
+                  type: 'error',
+                  message: '出院结档失败，请稍后再试'
+                }); 
+              }
+            })
+        }).catch((e) => {
+          console.log(e)
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });          
+        });
+    },
     handleCurrentChange(val) {
       this.handleQueryData(val)
     },
     showCouponDetail(record) {
-      let couponId = record.id || record.couponId
+      let couponId = record.id
       this.$router.push({
         path: '/case/case_details',
         query: {
@@ -157,7 +196,7 @@ export default {
       })
     },
     showCouponWorkFlow(record) {
-      let couponId = record.id || record.couponId
+      let couponId = record.id
       this.$router.push({
         path: '/case/case_add',
         query: {

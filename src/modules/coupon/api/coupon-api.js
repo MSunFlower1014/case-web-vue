@@ -67,6 +67,15 @@ class CouponApi extends BaseCRUDApi {
       }
     })
   }
+
+  // 新增转派流程
+  loginByUser(data) {
+    return request({
+      url: `/api/platform/login`,
+      method: 'post',
+      data: data
+    })
+  }
 }
 
 export default new CouponApi()

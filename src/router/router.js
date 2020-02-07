@@ -128,7 +128,27 @@ export const otherRouter = [
         }
       }
     ]
-    // }]
+  },
+  {
+    path: '/referral',
+    component: Main,
+    name: 'referral',
+    redirect: '',
+    meta: {
+      title: '转诊'
+    },
+    children: [
+      {
+        path: 'referral_list',
+        component: _import('modules/coupon/views/common/ReferralList'),
+        name: 'referral_list',
+        meta: {
+          title: '转诊列表',
+          icon: '',
+          roles: [] // or you can only set roles in sub nav
+        }
+      }
+    ]
   }
 ]
 

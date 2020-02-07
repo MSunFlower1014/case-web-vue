@@ -18,6 +18,48 @@ class ProductsService extends BaseCRUDService {
         })
     })
   }
+
+  checkReferral(param) {
+    return new Promise((resolve, reject) => {
+      productsApi
+        .checkReferral(param)
+        .then(response => {
+          const data = response.data
+          resolve(data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
+
+  getReferralInfo(param) {
+    return new Promise((resolve, reject) => {
+      productsApi
+        .getReferralInfo(param)
+        .then(response => {
+          const data = response.data
+          resolve(data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
+
+  changeCaseStatus(param) {
+    return new Promise((resolve, reject) => {
+      productsApi
+        .changeCaseStatus(param)
+        .then(response => {
+          const data = response.data
+          resolve(data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
 }
 
 export default new ProductsService()

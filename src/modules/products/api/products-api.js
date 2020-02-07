@@ -15,6 +15,30 @@ class ProductsApi extends BaseCRUDApi {
       data: param
     })
   }
+
+  checkReferral(param) {
+    return request({
+      url: `/api/referral/checkReferral`,
+      method: 'post',
+      data: param
+    })
+  }
+
+  getReferralInfo(param) {
+    return request({
+      url: `/api/referral/getReferralInfo`,
+      method: 'post',
+      data: param
+    })
+  }
+
+  changeCaseStatus(param) {
+    return request({
+      url: `/api/case/changeCaseStatus`,
+      method: 'post',
+      data: param
+    })
+  }
 }
 
 export default new ProductsApi()

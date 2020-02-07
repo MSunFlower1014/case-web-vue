@@ -95,6 +95,21 @@ class CouponService extends BaseCRUDService {
         })
     })
   }
+
+  // 登录
+  loginByUser(data) {
+    return new Promise((resolve, reject) => {
+      couponApi
+        .addReferralFromData(data)
+        .then(response => {
+          const data = response.data
+          resolve(data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
 }
 
 export default new CouponService()

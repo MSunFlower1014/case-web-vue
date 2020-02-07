@@ -78,9 +78,9 @@
           </template>
         </el-table-column>
          <!-- 操作列 -->
-        <el-table-column label="操作">
+        <el-table-column label="操作" >
           <template slot-scope="scope">
-             <el-button title="编辑" circle type="primary" icon="el-icon-edit" @click="showCouponWorkFlow(scope.row)"> </el-button>
+             <el-button v-if="scope.row.status=='1'" title="编辑" circle type="primary" icon="el-icon-edit" @click="showCouponWorkFlow(scope.row)"> </el-button>
               <el-button v-if="scope.row.status=='1'" title="出院" type="success" icon="el-icon-check" circle @click="changeCaseStatus(scope.row)"></el-button>
             </template>
         </el-table-column>
@@ -145,33 +145,32 @@ export default {
   },
   methods: {
     changeCaseStatus(record) {
-      if(record.status=='2'){
+      if (record.status === '2') {
           this.$message({
               type: 'error',
               message: '正在转院的档案无法进行结档操作'
-          }); 
-          return;
+          })
+          return
       }
       this.$confirm('此操作将发起出院结档, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-         
           productsService
             .changeCaseStatus(record.id)
             .then(rspData => {
               console.log(rspData)
-              if(rspData){
+              if (rspData) {
                  this.$message({
                   type: 'success',
                   message: '出院结档成功'
-                }); 
-              }else{
+                })
+              } else {
                 this.$message({
                   type: 'error',
                   message: '出院结档失败，请稍后再试'
-                }); 
+                })
               }
             })
         }).catch((e) => {
@@ -179,8 +178,8 @@ export default {
           this.$message({
             type: 'info',
             message: '已取消'
-          });          
-        });
+          })
+        })
     },
     handleCurrentChange(val) {
       this.handleQueryData(val)
@@ -206,7 +205,7 @@ export default {
     },
     handleQueryData(pn = 1) {
       this.currentPage = pn
-      this.queryParam['pageNum'] = pn   
+      this.queryParam['pageNum'] = pn
       this.goodsId = this.$route.query.goodsId
       this.handleQueryGoodsCoupon()
     },

@@ -10,7 +10,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'dashboard',
   computed: {
-    ...mapGetters(['username', 'realname','currentUser'])
+    ...mapGetters(['username', 'realname', 'currentUser'])
   },
   methods: {
     getCurrentDate() {

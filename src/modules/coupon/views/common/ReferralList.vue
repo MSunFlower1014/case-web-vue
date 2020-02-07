@@ -160,7 +160,7 @@ export default {
       return statusDesc
     }
   },
-  methods: {  
+  methods: {
     handleCurrentChange(val) {
       this.handleQueryData(val)
     },
@@ -174,9 +174,9 @@ export default {
         }
       })
     },
-    checkReferral(record,flag) {
+    checkReferral(record, flag) {
       let showMessage = '此操作将接受此档案转诊, 是否继续?'
-      if(flag==2){
+      if (flag === 2) {
         showMessage = '此操作将拒绝此档案转诊, 是否继续?'
       }
       this.$confirm(showMessage, '提示', {
@@ -193,24 +193,24 @@ export default {
               this.$message({
                     type: 'success',
                     message: '操作成功！'
-                  }); 
+                  })
               self.pageData = rspData
               console.log(self.pageData)
               self.loading = false
               this.handleQueryData()
-            })
-            .catch(e => {
-              this.$message({
-                    type: 'error',
-                    message: e
-                  }); 
-              self.loading = false
-            })
-        }).catch
+        })
+        .catch(e => {
+          this.$message({
+                type: 'error',
+                message: e
+              })
+          self.loading = false
+        })
+      })
     },
     handleQueryData(pn = 1) {
       this.currentPage = pn
-      this.queryParam['pageNum'] = pn   
+      this.queryParam['pageNum'] = pn
       this.goodsId = this.$route.query.goodsId
       this.handleQueryGoodsCoupon()
     },

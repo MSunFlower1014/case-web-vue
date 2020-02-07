@@ -54,7 +54,7 @@ export default {
       }
     }
   },
-  methods: { 
+  methods: {
     changeFlag1() {
       this.step1Flag = true
       this.next()

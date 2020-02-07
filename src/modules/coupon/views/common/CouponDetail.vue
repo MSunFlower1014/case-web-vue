@@ -9,7 +9,7 @@
           </a>
           <em></em>
         </li>
-        <li :class="{ on: isActive==='2' }">
+        <li :class="{ on: isActive==='2' }" v-if="basicInfoForm.status=='1'">
           <a @click="handleChangeTab('2')">
             <i class="fa fa-file-powerpoint-o fa-2x"></i>
             <span>转诊申请</span>
@@ -260,14 +260,14 @@ export default {
             self.btnLoading = false
             var showMessage = '转诊成功！'
             var showType = 'success'
-            if(rsp.resultCode != 0){
+            if (rsp.resultCode !== 0) {
               showMessage = rsp.resultMessage
               showType = 'error'
             }
             self.$message({
                 showClose: true,
                 message: showMessage,
-                type:showType
+                type: showType
               })
           }).catch(error => {
               self.$message({
@@ -280,8 +280,8 @@ export default {
           this.$message({
             type: 'info',
             message: '已取消'
-          });          
-        });
+          })
+        })
     },
     handleChangeTab(index) {
       this.isActive = index

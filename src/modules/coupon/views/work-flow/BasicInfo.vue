@@ -91,8 +91,6 @@
 <script>
 import Bus from '@/assets/bus.js'
 import couponService from '../../service/coupon-service.js'
-const NUM_PATTERN = /^\+?[1-9][0-9]*$/
-const DOUBLE_PATTERN = /^([1-9]\d*|0)(\.\d{1,2})?$/
 export default {
   name: 'BasicInfo',
   props: {
@@ -120,14 +118,14 @@ export default {
       sexUtils: [
         {
           label: '男',
-          value:'1' 
+          value: '1'
         },
         {
           label: '女',
           value: '2'
         }
       ],
-       typeUtils: [
+      typeUtils: [
         {
           label: '外科',
           value: '1'
@@ -169,7 +167,7 @@ export default {
     queryBasicInfo() {
       let self = this
       let queryID = this.couponID || this.emitCouponId
-      if (queryID =='') {
+      if (queryID === '') {
         return
       }
       let params = {
@@ -206,7 +204,7 @@ export default {
           Bus.$emit('getCouponNum', self.basicInfoForm.couponNum)
           self.$emit('change-flag1')
           this.$router.push({
-             path: '/case/case_list'
+            path: '/case/case_list'
           })
         })
         .catch(e => {
@@ -218,13 +216,7 @@ export default {
     this.queryBasicInfo()
   },
   created() {},
-  watch: {
-    action: {
-      handler: function(val, oldVal) {
-        console.log(val + oldVal)        
-      }
-    }
-  }
+  watch: {}
 }
 </script>
 <style lang="scss" scoped>

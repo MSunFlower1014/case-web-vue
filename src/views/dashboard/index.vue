@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">{{realname}}，欢迎您</div>
+    <div class="dashboard-text">{{realname}}，欢迎您 医院所属:{{currentUser.hospital}}</div>
     <div class="dashboard-text">当前时间:{{getCurrentDate()}}</div>
   </div>
 </template>
@@ -10,7 +10,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'dashboard',
   computed: {
-    ...mapGetters(['username', 'realname'])
+    ...mapGetters(['username', 'realname','currentUser'])
   },
   methods: {
     getCurrentDate() {

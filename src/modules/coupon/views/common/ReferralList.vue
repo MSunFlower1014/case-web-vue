@@ -153,7 +153,7 @@ export default {
         case 2:
           statusDesc = '已接受'
           break
-        case 2:
+        case 3:
           statusDesc = '已拒绝'
           break
       }
@@ -175,28 +175,38 @@ export default {
       })
     },
     checkReferral(record,flag) {
-      this.checkParam.id = record.id
-      this.checkParam.flag = flag
-      let param = this.checkParam
-      productsService
-        .checkReferral(param)
-        .then(rspData => {
-          this.$message({
-                type: 'success',
-                message: '操作成功！'
-              }); 
-          self.pageData = rspData
-          console.log(self.pageData)
-          self.loading = false
-          this.handleQueryData()
-        })
-        .catch(e => {
-           this.$message({
-                type: 'error',
-                message: e
-              }); 
-          self.loading = false
-        })
+      let showMessage = '此操作将接受此档案转诊, 是否继续?'
+      if(flag==2){
+        showMessage = '此操作将拒绝此档案转诊, 是否继续?'
+      }
+      this.$confirm(showMessage, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.checkParam.id = record.id
+          this.checkParam.flag = flag
+          let param = this.checkParam
+          productsService
+            .checkReferral(param)
+            .then(rspData => {
+              this.$message({
+                    type: 'success',
+                    message: '操作成功！'
+                  }); 
+              self.pageData = rspData
+              console.log(self.pageData)
+              self.loading = false
+              this.handleQueryData()
+            })
+            .catch(e => {
+              this.$message({
+                    type: 'error',
+                    message: e
+                  }); 
+              self.loading = false
+            })
+        }).catch
     },
     handleQueryData(pn = 1) {
       this.currentPage = pn

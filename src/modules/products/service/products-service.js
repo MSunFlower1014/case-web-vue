@@ -19,6 +19,7 @@ class ProductsService extends BaseCRUDService {
     })
   }
 
+  // 操作转档单 接受or拒绝
   checkReferral(param) {
     return new Promise((resolve, reject) => {
       productsApi
@@ -33,6 +34,7 @@ class ProductsService extends BaseCRUDService {
     })
   }
 
+  // 获取转档单数据
   getReferralInfo(param) {
     return new Promise((resolve, reject) => {
       productsApi
@@ -47,6 +49,7 @@ class ProductsService extends BaseCRUDService {
     })
   }
 
+  // 根据档案id结档
   changeCaseStatus(param) {
     return new Promise((resolve, reject) => {
       productsApi
@@ -58,6 +61,30 @@ class ProductsService extends BaseCRUDService {
         .catch(error => {
           reject(error)
         })
+    })
+  }
+
+  // 获取转档结果通知数据
+  getNoticePage(param) {
+    return new Promise((resolve, reject) => {
+      productsApi.getNoticePage(param).then(response => {
+        const data = response.data
+        resolve(data)
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  }
+
+  // 获取转档结果通知数据
+  getNoticePageByCaseId(param, id) {
+    return new Promise((resolve, reject) => {
+      productsApi.getNoticePageByCaseId(param, id).then(response => {
+        const data = response.data
+        resolve(data)
+      }).catch(error => {
+        reject(error)
+      })
     })
   }
 }

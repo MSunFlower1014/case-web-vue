@@ -12,7 +12,7 @@
       <el-row :gutter="20"
         class="query_input_style">
         <el-col :span="4">
-          <el-input v-model="queryParam['caseId']"
+          <el-input v-model="caseId"
             clearable
             placeholder="请输入病例id"></el-input>
         </el-col>
@@ -21,7 +21,7 @@
           <el-button class="query-search-button"
             type="primary"
             size="small"
-            @click="handleQueryData()">
+            @click="getNoticePageByCaseId()">
             <i class="fa fa-search"></i>搜索</el-button>
         </el-col>
       </el-row>
@@ -41,7 +41,8 @@
           prop="id"
           class-name="name">
           <template slot-scope="scope">
-            <span class="link">{{scope.row.id}}</span>
+            <span
+              class="link">{{scope.row.referralEntity.id}}</span>
           </template>
         </el-table-column>
             <el-table-column label="病例id"
@@ -50,28 +51,29 @@
           class-name="id">
           <template slot-scope="scope">
             <el-link @click="showCouponDetail(scope.row)"
-              class="link" type="primary">{{scope.row.caseId}}</el-link>
+              class="link" type="primary">{{scope.row.referralEntity.caseId}}</el-link>
+      
           </template>
         </el-table-column>
         <el-table-column label="申请转诊医院"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <span>{{scope.row.oldOwnName || '-'}}</span>
+            <span>{{scope.row.referralEntity.oldOwnName || '-'}}</span>
           </template>
         </el-table-column>
         <el-table-column label="接受转诊医院"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <span>{{scope.row.newOwnName || '-'}}</span>
+            <span>{{scope.row.referralEntity.newOwnName || '-'}}</span>
           </template>
         </el-table-column>
          <el-table-column label="转诊类型"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <span>{{scope.row.type | typeFilter}}</span>
+            <span>{{scope.row.referralEntity.type | typeFilter}}</span>
           </template>
         </el-table-column>
-         <el-table-column label="创建时间"
+         <el-table-column label="处理时间"
           show-overflow-tooltip>
           <template slot-scope="scope">
             <span>{{scope.row.createDate }}</span>
@@ -80,15 +82,8 @@
            <el-table-column label="转诊单状态"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <span>{{scope.row.status | statusFilter}}</span>
+            <span>{{scope.row.referralEntity.status | statusFilter}}</span>
           </template>
-        </el-table-column>
-         <!-- 操作列 -->
-        <el-table-column label="操作" >
-          <template slot-scope="scope" v-if="scope.row.status==1">
-             <el-button class="width-50"  title="接受" type="success" plain icon="el-icon-success" @click="checkReferral(scope.row,1)"> </el-button>
-             <el-button class="width-50" title="拒绝" type="warning" plain icon="el-icon-error" @click="checkReferral(scope.row,2)"> </el-button>
-            </template>
         </el-table-column>
       </el-table>
       
@@ -121,14 +116,14 @@ export default {
         records: []
       },
       queryParam: {
-        caseId: '',
         pageNum: 1,
         pageSize: PAGE_SIZE
       },
       checkParam: {
         id: '',
         flag: null
-      }
+      },
+      caseId: ''
     }
   },
   filters: {
@@ -165,7 +160,7 @@ export default {
       this.handleQueryData(val)
     },
     showCouponDetail(record) {
-      let couponId = record.caseId
+      let couponId = record.referralEntity.caseId
       this.$router.push({
         path: '/case/case_details',
         query: {
@@ -208,19 +203,32 @@ export default {
         })
       })
     },
+    getNoticePageByCaseId(){
+      this.currentPage = 1
+      this.queryParam['pageNum'] = 1
+      let param = this.queryParam
+      productsService
+      .getNoticePageByCaseId(param,this.caseId)
+      .then(rspData => {
+          this.pageData = rspData
+          console.log(this.pageData)
+          this.loading = false
+        })
+        .catch(e => {
+          this.loading = false
+        })
+    },
     handleQueryData(pn = 1) {
       this.currentPage = pn
       this.queryParam['pageNum'] = pn
-      this.goodsId = this.$route.query.goodsId
-      this.handleQueryGoodsCoupon()
+      this.handleQueryNotice()
     },
-    handleQueryGoodsCoupon() {
+    handleQueryNotice() {
       this.loading = true
       let self = this
-      this.queryParam.goodsId = this.goodsId
       let param = this.queryParam
       productsService
-        .getReferralInfo(param)
+        .getNoticePage(param)
         .then(rspData => {
           self.pageData = rspData
           console.log(self.pageData)

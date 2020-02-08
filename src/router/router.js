@@ -112,7 +112,7 @@ export const otherRouter = [
         component: _import('modules/coupon/views/common/CouponDetail'),
         name: 'coupon_details',
         meta: {
-          title: '优惠券详情',
+          title: '病例详情',
           icon: '',
           roles: [] // or you can only set roles in sub nav
         }
@@ -144,6 +144,16 @@ export const otherRouter = [
         name: 'referral_list',
         meta: {
           title: '转诊列表',
+          icon: '',
+          roles: [] // or you can only set roles in sub nav
+        }
+      },
+      {
+        path: 'referral_result',
+        component: _import('modules/coupon/views/common/ReferralResult'),
+        name: 'referral_result',
+        meta: {
+          title: '转诊结果',
           icon: '',
           roles: [] // or you can only set roles in sub nav
         }

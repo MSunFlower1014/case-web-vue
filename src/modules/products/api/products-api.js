@@ -39,6 +39,22 @@ class ProductsApi extends BaseCRUDApi {
       data: param
     })
   }
+
+  getNoticePage(param) {
+    return request({
+      url: `/api/notice/getNoticePage`,
+      method: 'post',
+      data: param
+    })
+  }
+
+  getNoticePageByCaseId(param, id) {
+    return request({
+      url: `/api/notice/getNoticeById?id=` + id,
+      method: 'post',
+      data: param
+    })
+  }
 }
 
 export default new ProductsApi()

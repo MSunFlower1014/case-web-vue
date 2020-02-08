@@ -63,7 +63,7 @@
             <el-table-column key="hospital"
               show-overflow-tooltip
               prop="hospital"
-              label="用户名">
+              label="医院名称">
             </el-table-column>
              <el-table-column key="levle"
               show-overflow-tooltip

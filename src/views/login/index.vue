@@ -86,7 +86,7 @@ import b from '@/assets/images/bg_02.jpeg'
 import c from '@/assets/images/bg_03.jpeg'
 import d from '@/assets/images/bg_04.jpeg'
 import { generateUUID } from '@/utils/index'
-
+import request from '@/utils/request'
 import { setToken } from '@/utils/auth'
 import { getRandom } from '@/utils/security'
 
@@ -132,6 +132,26 @@ export default {
     }
   },
   methods: {
+    loginByUser(data) {
+      return new Promise((resolve, reject) => {
+        this.loginByUserApi(data)
+          .then(response => {
+            const data = response.data
+            resolve(data)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    // 登录
+    loginByUserApi(data) {
+      return request({
+        url: `/api/platform/login`,
+        method: 'post',
+        data: data
+      })
+    },
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -145,18 +165,27 @@ export default {
         if (valid) {
           this.loading = true
           this.loginForm.password = this.loginForm.password
-          this.$store
-            .dispatch('system/login/login', JSON.stringify(this.loginForm))
+          this.loginByUser(this.loginForm)
             .then(response => {
-              // if (response.respCode === '0000') {
-              setToken(getRandom(32))
-              self.loading = false
-              self.$router.push({ path: '/' })
-              // }
-            })
-            .catch(e => {
-              this.changeCaptcha()
               this.loading = false
+              if(response.resultCode==0){
+                setToken(getRandom(32))
+                self.loading = false
+                self.$router.push({ path: '/' })
+              }else{
+                 self.$message({
+                    showClose: true,
+                    message: response.resultMessage,
+                    type: 'error'
+                  })
+              }
+            }).catch(e => {
+                this.loading = false
+                self.$message({
+                showClose: true,
+                message: e,
+                type: 'error'
+              })
             })
         } else {
           return false

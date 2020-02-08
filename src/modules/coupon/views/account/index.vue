@@ -66,7 +66,8 @@
               label="医院名称">
             </el-table-column>
              <el-table-column key="levle"
-              show-overflow-tooltip
+              show-overflo
+              w-tooltip
               prop="levle"
               sortable
               label="医院级别">

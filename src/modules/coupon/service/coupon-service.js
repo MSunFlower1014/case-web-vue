@@ -110,6 +110,36 @@ class CouponService extends BaseCRUDService {
         })
     })
   }
+
+  // 获取用户列表
+  getUserList(data) {
+    return new Promise((resolve, reject) => {
+      couponApi
+        .getUserList(data)
+        .then(response => {
+          const data = response.data
+          resolve(data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
+
+  // 获取用户列表
+  saveUser(data) {
+    return new Promise((resolve, reject) => {
+      couponApi
+        .saveUser(data)
+        .then(response => {
+          const data = response.data
+          resolve(data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
 }
 
 export default new CouponService()

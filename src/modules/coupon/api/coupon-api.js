@@ -76,6 +76,27 @@ class CouponApi extends BaseCRUDApi {
       data: data
     })
   }
+
+  // 获取用户列表
+  getUserList(data) {
+    return request({
+      url: `/api/platform/getUserList?name=` + data.name,
+      method: 'post',
+      data: data
+    })
+  }
+
+  // 新增用户
+  saveUser(data) {
+    return request({
+      url: `/api/platform/saveUser`,
+      method: 'post',
+      data: data,
+      headers: {
+        'Content-Type': ' multipart/form-data'
+      }
+    })
+  }
 }
 
 export default new CouponApi()

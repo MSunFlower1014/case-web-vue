@@ -159,6 +159,27 @@ export const otherRouter = [
         }
       }
     ]
+  },
+  {
+    path: '/user',
+    component: Main,
+    name: 'user',
+    redirect: '',
+    meta: {
+      title: '用户'
+    },
+    children: [
+      {
+        path: 'user_list',
+        component: _import('modules/coupon/views/account/index'),
+        name: 'user_list',
+        meta: {
+          title: '用户列表',
+          icon: '',
+          roles: [] // or you can only set roles in sub nav
+        }
+      }
+    ]
   }
 ]
 

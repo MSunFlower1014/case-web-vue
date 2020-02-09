@@ -97,6 +97,15 @@ class CouponApi extends BaseCRUDApi {
       }
     })
   }
+
+  // 获取用户列表分页
+  getUserListPage(data) {
+    return request({
+      url: `/api/platform/getUserListPage?name=` + data.name,
+      method: 'post',
+      data: data
+    })
+  }
 }
 
 export default new CouponApi()

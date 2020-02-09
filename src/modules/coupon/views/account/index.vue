@@ -138,9 +138,6 @@ export default {
           text: '名称'
         }
       ],
-      currentOrganizationId: '',
-      // 1、列表查询：姓名，用户名，店铺名称，所属分公司，手机号码，渠道经理，状态，操作
-
       isSelect: false,
       showShop: false,
       showShopDialog: false,
@@ -174,7 +171,7 @@ export default {
       this.showShop = false
       this.isSelect = false
       let queryParam = this.queryParam
-      couponService.getUserList(queryParam)
+      couponService.getUserListPage(queryParam)
       .then(rsp => {
           this.pageData = rsp
           this.loading1 = false

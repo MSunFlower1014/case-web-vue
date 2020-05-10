@@ -6,7 +6,6 @@ class CouponService extends BaseCRUDService {
     super(couponApi)
   }
 
-  // 根据优惠券id查询优惠券详情信息
   queryCouponDetailById(id) {
     return new Promise((resolve, reject) => {
       couponApi
@@ -21,7 +20,6 @@ class CouponService extends BaseCRUDService {
     })
   }
 
-  // 根据优惠券id 查询优惠券详情信息
   getBasicById(data) {
     return new Promise((resolve, reject) => {
       couponApi
@@ -36,7 +34,6 @@ class CouponService extends BaseCRUDService {
     })
   }
 
-  // 更新优惠券基本信息
   updateFormDataById(data) {
     return new Promise((resolve, reject) => {
       couponApi
@@ -51,7 +48,6 @@ class CouponService extends BaseCRUDService {
     })
   }
 
-  // 新增优惠券信息
   addFormData(data) {
     return new Promise((resolve, reject) => {
       couponApi
@@ -66,7 +62,6 @@ class CouponService extends BaseCRUDService {
     })
   }
 
-  // 获取转派列表
   queryUserList(data) {
     return new Promise((resolve, reject) => {
       couponApi
@@ -126,7 +121,7 @@ class CouponService extends BaseCRUDService {
     })
   }
 
-  // 获取用户列表
+
   saveUser(data) {
     return new Promise((resolve, reject) => {
       couponApi
@@ -155,6 +150,21 @@ class CouponService extends BaseCRUDService {
         })
     })
   }
+
+  //
+   getDepartList() {
+      return new Promise((resolve, reject) => {
+        couponApi
+          .getDepartList()
+          .then(response => {
+            const data = response.data
+            resolve(data)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    }
 }
 
 export default new CouponService()

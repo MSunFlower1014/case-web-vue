@@ -7,7 +7,7 @@
         <el-col :span="4">
           <span>病例id</span>
         </el-col>
-    
+
       </el-row>
       <el-row :gutter="20"
         class="query_input_style">
@@ -16,7 +16,7 @@
             clearable
             placeholder="请输入病例id"></el-input>
         </el-col>
-       
+
         <el-col :span="2">
           <el-button class="query-search-button"
             type="primary"
@@ -71,6 +71,12 @@
             <span>{{scope.row.type | typeFilter}}</span>
           </template>
         </el-table-column>
+         <el-table-column label="转诊科室"
+                  show-overflow-tooltip>
+                  <template slot-scope="scope">
+                    <span>{{scope.row.depart || '-'}}</span>
+                  </template>
+                </el-table-column>
          <el-table-column label="创建时间"
           show-overflow-tooltip>
           <template slot-scope="scope">
@@ -91,7 +97,7 @@
             </template>
         </el-table-column>
       </el-table>
-      
+
       <div class="pagination-container">
         <el-pagination background
           layout="total, prev, pager, next, jumper"

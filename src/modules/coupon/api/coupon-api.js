@@ -7,7 +7,6 @@ class CouponApi extends BaseCRUDApi {
     super(API_BASE_URL)
   }
 
-  // 根据优惠券id查询优惠券详情信息
   queryCouponDetailById(id) {
     return request({
       url: `${this.apiBaseUrl}/get/${id}`,
@@ -15,7 +14,6 @@ class CouponApi extends BaseCRUDApi {
     })
   }
 
-  // 根据优惠券id + ststus查询优惠券详情信息
   getBasicById(data) {
     return request({
       url: `${this.apiBaseUrl}/get/${data.id}`,
@@ -23,7 +21,6 @@ class CouponApi extends BaseCRUDApi {
     })
   }
 
-  // 更新优惠券信息
   updateFormDataById(data) {
     let id = JSON.parse(data.get('coupon')).id
     return request({
@@ -36,7 +33,6 @@ class CouponApi extends BaseCRUDApi {
     })
   }
 
-  // 新增优惠券信息
   addFormData(data) {
     return request({
       url: `${this.apiBaseUrl}/caseEntityAdd`,
@@ -104,6 +100,14 @@ class CouponApi extends BaseCRUDApi {
       url: `/api/platform/getUserListPage?name=` + data.name,
       method: 'post',
       data: data
+    })
+  }
+
+   //
+  getDepartList() {
+    return request({
+      url: `/api/depart/getAllDepart`,
+      method: 'get'
     })
   }
 }

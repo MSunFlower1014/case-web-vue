@@ -11,7 +11,7 @@
         <el-input v-model="basicInfoForm.name"
               placeholder="请输入病例名称"></el-input>
       </el-form-item>
-    
+
       <el-row >
         <el-col :span="6">
           <el-form-item label="病人名字"
@@ -49,6 +49,7 @@
             <el-input v-model="basicInfoForm.patientMobile"
               placeholder="请输入病人联系方式"></el-input>
           </el-form-item>
+
         </el-col>
        <el-col :span="6">
           <el-form-item label="病例类型"
@@ -60,7 +61,24 @@
           </el-select>
           </el-form-item>
         </el-col>
+           <el-col :span="6">
+                        <el-form-item label="科室"
+                          prop="type"
+                          label-width="40%">
+
+                          <div class="block">
+                                            <el-cascader
+                                              v-model="departId"
+                                              :options="departs"
+                                              :props="{ expandTrigger: 'hover',value: 'name', label: 'name',children :'childDepartment' }"
+                                              @change="handleChange"></el-cascader>
+                                          </div>
+                        </el-select>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
       </el-row>
+
       <el-form-item label="备注信息"
                     prop="message"
                     label-width="10%">
@@ -68,16 +86,7 @@
                 placeholder="请输入备注信息"></el-input>
       </el-form-item>
       <el-row>
-        <el-col :span="12">
-          <el-form-item label="发放方式"
-            prop="status"
-            label-width="20%">
-            <el-radio v-model="basicInfoForm.status"
-                      label="1">直接发放</el-radio>
-            <!--<el-radio v-model="basicInfoForm.sendType"
-                      label="2">铺货发放</el-radio>-->
-          </el-form-item>
-        </el-col>
+
       </el-row>
     </el-form>
     <div class="submit-button-wrap">
@@ -100,6 +109,8 @@ export default {
   },
   data() {
     return {
+      departId: '',
+      departs: [],
       loading: false,
       btnLoading: false,
       // 基本信息
@@ -113,7 +124,8 @@ export default {
         hospital: '',
         message: '',
         type: '',
-        status: ''
+        status: '',
+        depart: ''
       },
       sexUtils: [
         {
@@ -210,12 +222,23 @@ export default {
         .catch(e => {
           self.btnLoading = false
         })
-    }
+    },
+    queryDepartList(){
+          let self = this
+          couponService.getDepartList().then(rsp => {
+            self.departs =rsp
+          })
+    },
+      handleChange(value){
+        this.basicInfoForm.depart = value[value.length-1]
+      }
   },
   mounted() {
     this.queryBasicInfo()
+    this.queryDepartList()
   },
-  created() {},
+  created() {
+  },
   watch: {}
 }
 </script>

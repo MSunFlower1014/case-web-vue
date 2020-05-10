@@ -88,7 +88,7 @@
               <span>{{basicInfoForm.hospital}}</span>
             </el-col>
           </el-row>
-    
+
           <el-row class="formLine"
             :gutter="20">
             <el-col :span="3"
@@ -160,6 +160,22 @@
                 </el-col>
               </el-row>
               <el-row class="formLine" :gutter="20">
+              <el-col :span="3"
+                                class="title">
+                                <span>科室选择</span>
+                              </el-col>
+                  <el-col :span="9"
+                                  class="desc">
+                <div class="block">
+                  <el-cascader
+                    v-model="departId"
+                    :options="departs"
+                    :props="{ expandTrigger: 'hover',value: 'name', label: 'name',children :'childDepartment' }"
+                    @change="handleChange"></el-cascader>
+                </div>
+                    </el-col>
+              </el-row>
+              <el-row class="formLine" :gutter="20">
                 <el-col :span="3"
                   class="title">
                   <span>转诊备注信息</span>
@@ -186,6 +202,7 @@ import couponService from '../../service/coupon-service.js'
 export default {
   data() {
     return {
+      departId: "",
       isActive: '1', // 当前点击索引
       basicInfoForm: {}, // 基本信息
       userList: [],
@@ -193,9 +210,11 @@ export default {
         newOwnId: '',
         newOwnName: '',
         message: '',
-        caseId: ''
-      }
-    }
+        caseId: '',
+        depart: ""
+      },
+      departs: []
+     }
   },
   filters: {
     sexFilter(value) {
@@ -297,6 +316,16 @@ export default {
       couponService.queryUserList(this.couponID).then(rsp => {
         self.userList = Object.assign({}, rsp)
       })
+    },
+    queryDepartList(){
+      let self = this
+      couponService.getDepartList().then(rsp => {
+        self.departs =rsp
+      })
+    },
+    handleChange(value){
+      console.log(value)
+      this.referral.depart = value[value.length-1]
     }
   },
   created() {},
@@ -306,7 +335,10 @@ export default {
   watch: {
     isActive: {
       handler: function(val, oldVal) {
-        if (val === '2') this.queryUserList()
+        if (val === '2') {
+          this.queryUserList()
+          this.queryDepartList();
+        }
       },
       deep: true
     }
